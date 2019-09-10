@@ -7,17 +7,6 @@ class ProgressBar
 
   DefaultMeters = [:bar, :counter, :percentage, :elapsed, :eta, :rate]
 
-  BasicColorMap = {
-    black: '',
-    blue: '',
-    green: '',
-    yellow: '',
-    cyan: '',
-    white: '',
-    magenta: '',
-    red: ''
-  }.with_indifferent_access
-
   attr_accessor :count, :max, :meters, :bar, :color, :delimiters
 
   def initialize(*args, bar: '#', color: nil, delimiters: '[]')
