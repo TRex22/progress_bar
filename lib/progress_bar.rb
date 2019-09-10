@@ -7,9 +7,20 @@ class ProgressBar
 
   DefaultMeters = [:bar, :counter, :percentage, :elapsed, :eta, :rate]
 
-  attr_accessor :count, :max, :meters, :bar, :delimiters
+  BasicColorMap = {
+    black: '',
+    blue: '',
+    green: '',
+    yellow: '',
+    cyan: '',
+    white: '',
+    magenta: '',
+    red: ''
+  }.with_indifferent_access
 
-  def initialize(*args, bar: '#', delimiters: '[]')
+  attr_accessor :count, :max, :meters, :bar, :color, :delimiters
+
+  def initialize(*args, bar: '#', color: nil, delimiters: '[]')
     @count      = 0
     @max        = 100
 
@@ -20,6 +31,8 @@ class ProgressBar
 
     @bar        = bar
     raise ArgumentError, 'Bar must be a single character' unless @bar&.size == 1
+
+    @color      = color
 
     @delimiters = delimiters
     unless @delimiters&.size == 2
@@ -80,9 +93,16 @@ class ProgressBar
 
   def to_s
     self.count = max if count > max
-    meters.inject('') do |text, meter|
+
+    progress_bar_text = meters.inject('') do |text, meter|
       text << render(meter) + ' '
     end.strip
+
+    if color > 0
+      "\e[#{color}m#{progress_bar_text}\e[0m"
+    else
+      progress_bar_text
+    end
   end
 
   protected
