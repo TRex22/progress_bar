@@ -52,10 +52,11 @@ class ProgressBar
 
     # can be a valid key or value
     def process(style)
-      value = style_from(style)
-      return value if value.present?
+      return if style.nil? || style == ''
+      return style if style == 0
 
-      code_from(style) if ColorMap.keys.include?(style)
+      return style_from(style) if style.is_a? Integer
+      code_from(style) if ColorMap.keys.include?(key_from(style))
     end
 
     def style_from(code)
@@ -63,7 +64,11 @@ class ProgressBar
     end
 
     def code_from(style)
-      ColorMap[style.to_sym]
+      ColorMap[key_from(style)]
+    end
+
+    def key_from(style)
+      style.to_s.downcase.to_sym
     end
   end
 end

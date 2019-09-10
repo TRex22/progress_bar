@@ -212,3 +212,4 @@ class ProgressBar
 end
 
 require_relative 'progress_bar/with_progress'
+require_relative 'progress_bar/styles'

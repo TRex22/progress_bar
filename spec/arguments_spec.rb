@@ -36,6 +36,11 @@ describe 'ProgressBar arguments' do
     bar.delimiters.should == '||'
   end
 
+  it 'should allow specifying the style' do
+    bar = ProgressBar.new(style: 'green')
+    bar.style.should == 32
+  end
+
   it 'should raise an error when initial max is nonsense' do
     lambda {
       _bar = ProgressBar.new(-1)
@@ -69,6 +74,18 @@ describe 'ProgressBar arguments' do
   it 'should raise an error when delimiters is empty' do
     lambda {
       _bar = ProgressBar.new(delimiters: '')
+    }.should raise_error(ProgressBar::ArgumentError)
+  end
+
+  it 'should raise an error when style is invalid' do
+    lambda {
+      _bar = ProgressBar.new(style: 'magic_rainbow')
+    }.should raise_error(ProgressBar::ArgumentError)
+  end
+
+  it 'should raise an error when style is empty' do
+    lambda {
+      _bar = ProgressBar.new(style: '')
     }.should raise_error(ProgressBar::ArgumentError)
   end
 end
