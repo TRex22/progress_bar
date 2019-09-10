@@ -55,7 +55,7 @@ class ProgressBar
       return if style.nil? || style == ''
       return style if style == 0
 
-      return style_from(style) if style.is_a? Integer
+      return code_from(style_from(style)) if style.is_a? Integer
       code_from(style) if ColorMap.keys.include?(key_from(style))
     end
 

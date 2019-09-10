@@ -36,8 +36,18 @@ describe 'ProgressBar arguments' do
     bar.delimiters.should == '||'
   end
 
-  it 'should allow specifying the style' do
+  it 'should allow specifying the style as a string' do
     bar = ProgressBar.new(style: 'green')
+    bar.style.should == 32
+  end
+
+  it 'should allow specifying the style as a symbol' do
+    bar = ProgressBar.new(style: :green)
+    bar.style.should == 32
+  end
+
+  it 'should allow specifying the style as a integer' do
+    bar = ProgressBar.new(style: 32)
     bar.style.should == 32
   end
 
