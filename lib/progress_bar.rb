@@ -7,9 +7,9 @@ class ProgressBar
 
   DefaultMeters = [:bar, :counter, :percentage, :elapsed, :eta, :rate]
 
-  attr_accessor :count, :max, :meters, :bar, :color, :delimiters
+  attr_accessor :count, :max, :meters, :bar, :delimiters, :style
 
-  def initialize(*args, bar: '#', color: nil, delimiters: '[]')
+  def initialize(*args, bar: '#', delimiters: '[]', style: nil)
     @count      = 0
     @max        = 100
 
@@ -21,7 +21,7 @@ class ProgressBar
     @bar        = bar
     raise ArgumentError, 'Bar must be a single character' unless @bar&.size == 1
 
-    @color      = color
+    @style      = style
 
     @delimiters = delimiters
     unless @delimiters&.size == 2
@@ -87,8 +87,8 @@ class ProgressBar
       text << render(meter) + ' '
     end.strip
 
-    if color > 0
-      "\e[#{color}m#{progress_bar_text}\e[0m"
+    if style > 0
+      "\e[#{style}m#{progress_bar_text}\e[0m"
     else
       progress_bar_text
     end
