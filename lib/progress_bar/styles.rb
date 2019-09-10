@@ -46,8 +46,16 @@ class ProgressBar
         style_code = ColorMap[key]
 
         styled_text = "\e[#{style_code}m[##############] [100/100] \e[0m"
-        puts "#{style_name}: #{styled_text}"
+        puts "#{style_name} (\e[1m#{style_code}\e[0m): #{styled_text}"
       end
+    end
+
+    # can be a valid key or value
+    def process(style)
+      value = style_from(style)
+      return value if value.present?
+
+      code_from(style) if ColorMap.keys.include?(style)
     end
 
     def style_from(code)

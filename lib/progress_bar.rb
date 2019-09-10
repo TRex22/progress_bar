@@ -9,7 +9,7 @@ class ProgressBar
 
   attr_accessor :count, :max, :meters, :bar, :delimiters, :style
 
-  def initialize(*args, bar: '#', delimiters: '[]', style: nil)
+  def initialize(*args, bar: '#', delimiters: '[]', style: 0)
     @count      = 0
     @max        = 100
 
@@ -21,11 +21,14 @@ class ProgressBar
     @bar        = bar
     raise ArgumentError, 'Bar must be a single character' unless @bar&.size == 1
 
-    @style      = style
-
     @delimiters = delimiters
     unless @delimiters&.size == 2
       raise ArgumentError, 'Delimiters must be two characters'
+    end
+
+    @style      = ProgressBar::Styles.process(style)
+    unless @style
+      raise ArgumentError, 'Style must be present in #available_styles'
     end
 
     @last_write = ::Time.at(0)
